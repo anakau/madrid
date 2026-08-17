@@ -180,85 +180,67 @@
         </div>
       </div>
 
-      <div class="portfolio-track">
-        <div class="portfolio-pin">
-          <div class="pin-pair is-active" data-layer="0">
-            <div class="pin-illustration"><img src="assets/layer-physical.png" alt="Cool roofs and reflective surfaces" /></div>
-            <div class="pin-text">
-              <h4>Physical layer</h4>
-              <div class="tags">
-                <span class="tag">Cool roofs</span>
-                <span class="tag">Reflective surfaces</span>
-                <span class="tag">Shaded corridors</span>
-              </div>
-            </div>
-          </div>
-          <div class="pin-pair" data-layer="1">
-            <div class="pin-illustration"><img src="assets/layer-living.png" alt="Trees and biodiversity corridors" /></div>
-            <div class="pin-text">
-              <h4>Living layer</h4>
-              <div class="tags">
-                <span class="tag">Biodiversity corridors</span>
-                <span class="tag">Soil regeneration</span>
-                <span class="tag">Evapotranspiration gardens</span>
-              </div>
-            </div>
-          </div>
-          <div class="pin-pair" data-layer="2">
-            <div class="pin-illustration"><img src="assets/layer-intelligence.png" alt="Sensing grid across the city" /></div>
-            <div class="pin-text">
-              <h4>Intelligence layer</h4>
-              <div class="tags">
-                <span class="tag">Environmental sensing</span>
-                <span class="tag">Real-time thermal mapping</span>
-                <span class="tag">Spatial AI</span>
-              </div>
-            </div>
-          </div>
-          <div class="pin-pair" data-layer="3">
-            <div class="pin-illustration"><img src="assets/layer-care.png" alt="Drones and irrigated crop rows" /></div>
-            <div class="pin-text">
-              <h4>Care layer</h4>
-              <div class="tags">
-                <span class="tag">Autonomous irrigation</span>
-                <span class="tag">Drone-based inspection</span>
-                <span class="tag">Aquifer recharge</span>
-              </div>
-            </div>
-          </div>
-          <div class="pin-pair" data-layer="4">
-            <div class="pin-illustration"><img src="assets/layer-governance.png" alt="Citizens, institutions and public space" /></div>
-            <div class="pin-text">
-              <h4>Governance structures</h4>
-              <div class="tags">
-                <span class="tag">Institutions</span>
-                <span class="tag">Citizens</span>
-                <span class="tag">Urban ecosystems</span>
-              </div>
-            </div>
-          </div>
-          <div class="pin-pair" data-layer="5">
-            <div class="pin-illustration"><img src="assets/layer-capital.png" alt="Cooling bonds and capital instruments" /></div>
-            <div class="pin-text">
-              <h4>Capital architecture</h4>
-              <div class="tags">
-                <span class="tag">Cooling bonds</span>
-                <span class="tag">Outcome contracts</span>
-                <span class="tag">Risk-sharing facilities</span>
-              </div>
-            </div>
-          </div>
-          <div class="pin-progress" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-          </div>
+      <div class="portfolio-stack-view">
+        <div class="stack-illustration">
+          <img class="stack-layer" data-layer="0" src="assets/layer-physical.png" alt="Physical layer" />
+          <img class="stack-layer" data-layer="1" src="assets/layer-living.png" alt="Living layer" />
+          <img class="stack-layer" data-layer="2" src="assets/layer-intelligence.png" alt="Intelligence layer" />
+          <img class="stack-layer" data-layer="3" src="assets/layer-care.png" alt="Care layer" />
+          <img class="stack-layer" data-layer="4" src="assets/layer-governance.png" alt="Governance structures" />
+          <img class="stack-layer" data-layer="5" src="assets/layer-capital.png" alt="Capital architecture" />
         </div>
-      </div>
 
-      <!-- Populated by JS: the same .pin-pair elements above are moved
-           here once the user scrolls past the last step, so the scroll
-           sequence settles into the stack rather than a separate copy
-           appearing underneath it. -->
-      <div class="portfolio-stack"></div>
+        <ul class="stack-list">
+          <li class="stack-list-item" data-layer="0">
+            <h4>Physical layer</h4>
+            <div class="tags">
+              <span class="tag">Cool roofs</span>
+              <span class="tag">Reflective surfaces</span>
+              <span class="tag">Shaded corridors</span>
+            </div>
+          </li>
+          <li class="stack-list-item" data-layer="1">
+            <h4>Living layer</h4>
+            <div class="tags">
+              <span class="tag">Biodiversity corridors</span>
+              <span class="tag">Soil regeneration</span>
+              <span class="tag">Evapotranspiration gardens</span>
+            </div>
+          </li>
+          <li class="stack-list-item" data-layer="2">
+            <h4>Intelligence layer</h4>
+            <div class="tags">
+              <span class="tag">Environmental sensing</span>
+              <span class="tag">Real-time thermal mapping</span>
+              <span class="tag">Spatial AI</span>
+            </div>
+          </li>
+          <li class="stack-list-item" data-layer="3">
+            <h4>Care layer</h4>
+            <div class="tags">
+              <span class="tag">Autonomous irrigation</span>
+              <span class="tag">Drone-based inspection</span>
+              <span class="tag">Aquifer recharge</span>
+            </div>
+          </li>
+          <li class="stack-list-item" data-layer="4">
+            <h4>Governance structures</h4>
+            <div class="tags">
+              <span class="tag">Institutions</span>
+              <span class="tag">Citizens</span>
+              <span class="tag">Urban ecosystems</span>
+            </div>
+          </li>
+          <li class="stack-list-item" data-layer="5">
+            <h4>Capital architecture</h4>
+            <div class="tags">
+              <span class="tag">Cooling bonds</span>
+              <span class="tag">Outcome contracts</span>
+              <span class="tag">Risk-sharing facilities</span>
+            </div>
+          </li>
+        </ul>
+      </div>
     </section>
 
     <section id="demonstrators" class="section section--dark">
@@ -272,7 +254,12 @@
         </div>
       </div>
 
-      <p class="note">Note — demonstrator selection, ordering and progress levels are indicative and evolving; to be confirmed with partners before external publication.</p>
+      <div class="section-grid">
+        <div class="col-label"></div>
+        <div class="col-content">
+          <p class="note">Note — demonstrator selection, ordering and progress levels are indicative and evolving; to be confirmed with partners before external publication.</p>
+        </div>
+      </div>
 
       <div class="demo-grid">
 
@@ -400,96 +387,6 @@
   </div>
 
   <script>
-    // Portfolio-tool pinned scroll-stepper: .portfolio-pin sticks to the
-    // top of the viewport for the height of .portfolio-track. How far the
-    // user has scrolled into that track (0–1) picks which .pin-pair is
-    // active; each step crossfades in centered in place of the last. Once
-    // scroll progress reaches the end, the same .pin-pair elements are
-    // moved into .portfolio-stack (right after the track, in normal flow)
-    // and switched to .is-stacked — the scroll sequence settles into the
-    // resting stack rather than a separate copy appearing under it.
-    (function () {
-      var track = document.querySelector('.portfolio-track');
-      var stack = document.querySelector('.portfolio-stack');
-      var pairs = Array.prototype.slice.call(document.querySelectorAll('.pin-pair'));
-      var dots = Array.prototype.slice.call(document.querySelectorAll('.pin-progress span'));
-      if (!track || !stack || !pairs.length) return;
-
-      var currentActive = 0;
-      var ticking = false;
-      var stacked = false;
-
-      function setActive(index) {
-        if (index === currentActive) return;
-        currentActive = index;
-        pairs.forEach(function (pair, i) {
-          pair.classList.toggle('is-active', i === index);
-        });
-        dots.forEach(function (dot, i) {
-          dot.classList.toggle('is-active', i === index);
-        });
-      }
-
-      function settleIntoStack() {
-        stacked = true;
-        pairs.forEach(function (pair) {
-          pair.classList.remove('is-active');
-          pair.classList.add('is-stacked');
-          stack.appendChild(pair);
-        });
-        var progressEl = document.querySelector('.pin-progress');
-        if (progressEl) progressEl.style.display = 'none';
-
-        // The track's tall scroll distance has done its job; collapse it
-        // so the title/subtitle above sit directly next to the stack
-        // instead of leaving that whole scroll distance behind as empty
-        // space. Compensate scrollY by the same amount removed so the
-        // content the user is currently looking at doesn't jump.
-        var removedHeight = track.offsetHeight;
-        var prevScrollY = window.scrollY;
-        track.style.display = 'none';
-        window.scrollTo(0, prevScrollY - removedHeight);
-      }
-
-      function update() {
-        ticking = false;
-        if (stacked) return;
-
-        var rect = track.getBoundingClientRect();
-        var scrollable = rect.height - window.innerHeight;
-        if (scrollable <= 0) return;
-
-        // The sticky pin naturally holds its last frame for one more
-        // viewport-height while it glides off-screen (that's how
-        // `position: sticky` releases). Only settle into the stack once
-        // the track has fully scrolled past — at that exact instant the
-        // stack's position coincides with the top of the viewport, so
-        // the handoff has zero gap instead of a blank pause.
-        if (rect.bottom <= 0) {
-          settleIntoStack();
-          return;
-        }
-
-        var progress = -rect.top / scrollable;
-        progress = Math.max(progress, 0);
-
-        var index = Math.floor(progress * pairs.length);
-        if (index >= pairs.length) index = pairs.length - 1;
-        setActive(index);
-      }
-
-      window.addEventListener('scroll', function () {
-        if (!ticking) {
-          ticking = true;
-          requestAnimationFrame(update);
-        }
-      }, { passive: true });
-      window.addEventListener('resize', update);
-
-      setActive(0);
-      update();
-    })();
-
     // Mobile menu toggle.
     (function () {
       var toggle = document.querySelector('.menu-toggle');

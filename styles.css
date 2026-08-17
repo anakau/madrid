@@ -233,12 +233,14 @@ h1,h2,h3,h4{margin:0;font-weight:500}
   top:27.49%;    /* 276px / 1004px hero photo height — vertical, no other element to match */
   /* Runs 28px past the column's right edge so that, with real
      padding-right inside it, the text still reaches that edge instead of
-     the box being flush and the text touching its bare edge. */
+     the box being flush and the text touching its bare edge. The left
+     edge stays at left:0 (the column's own start, aligned to the nav) —
+     only padding-left below shifts the text inward, not the box itself. */
   width:calc(100% + 28px);
-  max-width:701px;
+  max-width:741px;
   background:#fff;
   border-top:4px solid var(--red);
-  padding:50px 28px 50px 0;
+  padding:50px 28px 50px 40px;
   pointer-events:auto;
 }
 @media (max-width:900px){
@@ -456,72 +458,63 @@ h1,h2,h3,h4{margin:0;font-weight:500}
   .approach-arc{display:none}
 }
 
-/* ---------- Portfolio tool: pinned scroll-stepper ---------- */
-/* The track is tall (one viewport-height per layer) so scrolling through
-   it has room to advance a step at a time. The pin sticks to the top of
-   the viewport for that whole distance; each pin-pair is absolutely
-   stacked on top of the others and crossfades in when it's the active
-   step. Once the track's height has been scrolled past, JS moves the
-   same .pin-pair elements into .portfolio-stack (right after the track,
-   in normal flow) and adds .is-stacked — the scroll sequence settles
-   into the resting stack rather than a separate copy appearing under it. */
-.portfolio-track{
-  position:relative;
-  height:420vh;
+/* ---------- Portfolio tool: static stack + hover-to-zoom ---------- */
+/* Default state is the full composited stack (all 6 layer images placed
+   at a shared scale/offset to reconstruct one isometric illustration —
+   they're slices of a single artwork, not independent pictures).
+   Hovering a list item dims the other layers and pops the matching one
+   forward, using :has() so the illustration and list stay in plain
+   markup with no scroll- or hover-tracking JS. */
+.portfolio-stack-view{
   margin-top:64px;
-}
-.portfolio-pin{
-  position:sticky;
-  top:0;
-  /* Sized to the content, not the full screen — a 100vh pin left a huge
-     block of empty blue below every step (content is only ~200–600px
-     tall), which read as lopsided spacing and excess background. This
-     also puts an even margin above and below once the pair is centered
-     in it below. */
-  height:min(78vh, 720px);
-  overflow:hidden;
-}
-.pin-pair{
-  position:absolute;
-  left:0;
-  right:0;
-  top:50%;
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:48px;
   align-items:center;
-  opacity:0;
-  transform:translateY(calc(-50% + 24px));
-  transition:opacity .5s ease, transform .5s ease;
-  pointer-events:none;
 }
-.pin-pair.is-active{
+.stack-illustration{
+  position:relative;
+  width:100%;
+  max-width:550px;
+  height:830px;
+  margin:0 auto;
+}
+.stack-layer{
+  position:absolute;
+  left:50%;
+  width:auto;
+  transform:translateX(-50%) scale(1);
   opacity:1;
-  transform:translateY(-50%);
-  pointer-events:auto;
+  transition:transform .35s ease, opacity .35s ease;
 }
-.pin-pair.is-stacked{
-  position:static;
+.stack-layer[data-layer="0"]{ top:0;    width:366px; z-index:6; }
+.stack-layer[data-layer="1"]{ top:65px; width:372px; z-index:5; }
+.stack-layer[data-layer="2"]{ top:227px;width:490px; z-index:4; }
+.stack-layer[data-layer="3"]{ top:334px;width:548px; z-index:3; }
+.stack-layer[data-layer="4"]{ top:431px;width:494px; z-index:2; }
+.stack-layer[data-layer="5"]{ top:582px;width:417px; z-index:1; }
+
+.portfolio-stack-view:has(.stack-list-item:hover) .stack-layer{ opacity:.25; }
+.stack-illustration:has(~ .stack-list .stack-list-item[data-layer="0"]:hover) .stack-layer[data-layer="0"],
+.stack-illustration:has(~ .stack-list .stack-list-item[data-layer="1"]:hover) .stack-layer[data-layer="1"],
+.stack-illustration:has(~ .stack-list .stack-list-item[data-layer="2"]:hover) .stack-layer[data-layer="2"],
+.stack-illustration:has(~ .stack-list .stack-list-item[data-layer="3"]:hover) .stack-layer[data-layer="3"],
+.stack-illustration:has(~ .stack-list .stack-list-item[data-layer="4"]:hover) .stack-layer[data-layer="4"],
+.stack-illustration:has(~ .stack-list .stack-list-item[data-layer="5"]:hover) .stack-layer[data-layer="5"]{
   opacity:1;
-  transform:none;
-  pointer-events:auto;
-  transition:none;
-  /* Compact resting layout: a small fixed-width thumbnail instead of a
-     full half-width column, with the text sitting beside it — half the
-     visual size of the pinned steps, so all six rows comfortably fit a
-     normal screen instead of stacking into a long scroll. */
-  grid-template-columns:260px 1fr;
-  gap:32px;
+  transform:translateX(-50%) scale(1.15);
+  z-index:10;
 }
-.pin-illustration img{width:100%;height:auto;display:block}
-.pin-text h4{
+
+.stack-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:28px}
+.stack-list-item{cursor:pointer}
+.stack-list-item h4{
   font-family:var(--font-display);
   font-weight:400;
   font-size:24px;
   color:var(--charcoal);
   padding-left:16px;
   border-left:6px solid var(--red);
-  margin-bottom:20px;
 }
 .tags{display:flex;flex-wrap:wrap;gap:8px}
 .tag{
@@ -532,40 +525,49 @@ h1,h2,h3,h4{margin:0;font-weight:500}
   font-size:13px;
   padding:9px 16px;
 }
-.pin-progress{
-  position:absolute;
-  left:0;
-  bottom:48px;
-  display:flex;
-  gap:10px;
+/* Tags are collapsed by default except the first item, and reveal on
+   hover — the illustration's default-open layer and the list's
+   default-open tags are the same "resting state" example. */
+.stack-list-item .tags{
+  margin-top:0;
+  max-height:0;
+  opacity:0;
+  overflow:hidden;
+  transition:max-height .3s ease, opacity .3s ease, margin-top .3s ease;
 }
-.pin-progress span{
-  width:32px;
-  height:4px;
-  background:rgba(0,0,0,.15);
-  transition:background .3s ease;
+.stack-list-item:first-child .tags{
+  margin-top:12px;
+  max-height:120px;
+  opacity:1;
 }
-.pin-progress span.is-active{background:var(--red)}
-@media (max-width:900px){
-  .pin-pair{grid-template-columns:1fr;gap:20px}
-  .pin-pair.is-stacked{grid-template-columns:1fr}
+.stack-list:has(.stack-list-item:not(:first-child):hover) .stack-list-item:first-child .tags{
+  margin-top:0;
+  max-height:0;
+  opacity:0;
+}
+.stack-list-item:hover .tags{
+  margin-top:12px;
+  max-height:120px;
+  opacity:1;
 }
 @media (prefers-reduced-motion:reduce){
-  .pin-pair{transition:none}
+  .stack-layer, .stack-list-item .tags{transition:none}
 }
-
-/* Holds the .pin-pair elements once JS moves them here at scroll-end. */
-.portfolio-stack{
-  display:flex;
-  flex-direction:column;
-  gap:28px;
+/* No hover on touch — skip the interaction entirely and show the full
+   stack with every layer's tags open, so the content is still there. */
+@media (hover:none){
+  .portfolio-stack-view{grid-template-columns:1fr;gap:32px}
+  .stack-illustration{height:auto;position:static}
+  .stack-layer{position:static;left:auto;width:100%;max-width:420px;margin:0 auto;transform:none!important;opacity:1!important;display:block}
+  .stack-list-item .tags{max-height:120px;opacity:1;margin-top:12px}
 }
-.portfolio-stack:not(:empty){margin-top:64px}
+@media (max-width:900px){
+  .portfolio-stack-view{grid-template-columns:1fr;gap:32px}
+}
 
 /* ---------- Demonstrators ---------- */
 .note{
   margin-top:48px;
-  margin-left:var(--col-label);
   max-width:524px;
   font-family:var(--font-sans);
   font-weight:500;
@@ -573,7 +575,7 @@ h1,h2,h3,h4{margin:0;font-weight:500}
   color:var(--blue);
 }
 @media (max-width:900px){
-  .note{margin-left:0;max-width:none}
+  .note{max-width:none}
 }
 .demo-grid{
   margin-top:32px;
