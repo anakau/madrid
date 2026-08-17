@@ -1,5 +1,5 @@
 :root{
-  --blue:#89D6E0;
+  --blue:#A4E8F1;
   --accent:#EF3717;
   --red:#BF2207;
   --btn-red:#C30000;
@@ -10,10 +10,15 @@
   --dot-off:#C3C3C3;
   --white:#FFFFFF;
 
-  --font-serif:'Pridi', serif;
-  --font-sans:'Funnel Sans', sans-serif;
+  --font-serif:'Stack Sans Headline', serif;
+  --font-sans:'Stack Sans Text', sans-serif;
+  --font-notch:'Stack Sans Notch', sans-serif;
   --font-display:'Funnel Display', sans-serif;
   --font-ui:'DM Sans', sans-serif;
+  /* Portfolio Tool section paragraphs deliberately keep the old body font
+     per the updated Figma spec — everything else moved to Stack Sans, but
+     not that one section. */
+  --font-sans-legacy:'Funnel Sans', sans-serif;
 
   --page-max:1512px;
   --pad-x:146px;
@@ -166,8 +171,8 @@ h1,h2,h3,h4{margin:0;font-weight:500}
   white-space:nowrap;
 }
 .btn-touch{background:var(--btn-red);color:#fff}
-.btn-accent{background:var(--blue);color:#000}
-.btn-dark{background:#000;color:#fff}
+.btn-accent{background:var(--blue);color:#000;font-family:var(--font-sans)}
+.btn-dark{background:#000;color:#fff;font-family:var(--font-sans)}
 
 /* ---------- Hero ---------- */
 .hero{position:relative}
@@ -235,7 +240,7 @@ h1,h2,h3,h4{margin:0;font-weight:500}
   .hero-actions{flex-direction:column;align-items:stretch}
 }
 .eyebrow{
-  font-family:var(--font-serif);
+  font-family:var(--font-sans);
   font-weight:500;
   font-size:13px;
   letter-spacing:0.52px;
@@ -255,6 +260,7 @@ h1,h2,h3,h4{margin:0;font-weight:500}
 .section--dark{background:var(--dark);color:#fff}
 .section--tint{background:var(--tint)}
 .section--accent{background:var(--blue)}
+.section--accent .body-lg{font-family:var(--font-sans-legacy)}
 
 .kicker{
   font-family:var(--font-sans);
@@ -300,7 +306,7 @@ h1,h2,h3,h4{margin:0;font-weight:500}
 }
 .cascade-row:last-child{border-bottom:1px solid rgba(255,255,255,.25)}
 .cascade-stat{
-  font-family:var(--font-serif);
+  font-family:var(--font-notch);
   font-weight:500;
   font-size:75px;
   color:var(--accent);
@@ -334,8 +340,8 @@ h1,h2,h3,h4{margin:0;font-weight:500}
   padding:40px;
 }
 .goal-num{
-  font-family:var(--font-serif);
-  font-weight:700;
+  font-family:var(--font-notch);
+  font-weight:500;
   font-size:56px;
   color:#000;
   margin-bottom:56px;
