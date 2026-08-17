@@ -203,15 +203,16 @@ h1,h2,h3,h4{margin:0;font-weight:500}
   top:27.49%;    /* 276px / 1004px hero photo height — vertical, no other element to match */
   /* Right edge tracks the viewport the same way .section-grid's 1fr
      column does — shrinks on medium screens instead of overflowing.
-     The box itself runs 50px past the shared right margin so that,
+     The box itself runs 28px past the shared right margin so that,
      with real padding-right inside it, the text still reaches that
      margin instead of the box being flush and the text touching its
-     bare edge. */
-  width:calc(100% - (2 * var(--pad-x)) - var(--col-label) + 50px);
-  max-width:723px;
+     bare edge. Kept small (not the ~50px it used to be) so the white
+     space between the wrapped text and the card's own edge stays tight. */
+  width:calc(100% - (2 * var(--pad-x)) - var(--col-label) + 28px);
+  max-width:701px;
   background:#fff;
   border-top:4px solid var(--red);
-  padding:50px 50px 50px 0;
+  padding:50px 28px 50px 0;
   pointer-events:auto;
 }
 @media (max-width:900px){
@@ -251,6 +252,7 @@ h1,h2,h3,h4{margin:0;font-weight:500}
   font-weight:500;
   font-size:56px;
   line-height:1.1;
+  max-width:673px;
   margin-bottom:28px;
 }
 .hero-actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
