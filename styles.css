@@ -186,29 +186,44 @@ h1,h2,h3,h4{margin:0;font-weight:500}
 }
 .hero-media img{width:100%;height:100%;object-fit:cover}
 
-/* The photo stays full-bleed (edge to edge). The card is positioned with
-   the same fixed-pixel, viewport-edge-relative offsets as .section-grid's
-   col-content (padding + col-label), NOT a percentage of a centered
-   container — percentages here would only coincide with the nav/headline
-   column at exactly the 1512px design width and drift at any other
-   viewport size. */
+/* The photo stays full-bleed (edge to edge). The card sits in the SAME
+   col-label/1fr grid as .header-inner and .section-grid, split across the
+   same two layers those use — an outer pad-x inset (.hero-content, like
+   .section's own padding) and an inner capped-and-centered grid
+   (.hero-grid, like `.section > *`). Padding and max-width deliberately
+   stay on DIFFERENT elements: combined on one with box-sizing:border-box,
+   the padding would eat into the capped width budget instead of sitting
+   outside it, narrowing the columns and shifting them off the column the
+   nav and every section's content actually use. */
 .hero-content{
   position:absolute;
   inset:0;
+  padding:0 var(--pad-x);
   pointer-events:none;
+}
+.hero-grid{
+  height:100%;
+  max-width:var(--page-max);
+  margin-left:auto;
+  margin-right:auto;
+  display:grid;
+  grid-template-columns:var(--col-label) 1fr;
+}
+/* The 1fr column itself — gives .hero-card a containing block whose width
+   already equals col-content's width everywhere else on the page, so the
+   card's own sizing only has to describe itself, not its column. */
+.hero-card-col{
+  grid-column:2;
+  position:relative;
 }
 .hero-card{
   position:absolute;
-  left:calc(var(--pad-x) + var(--col-label));  /* same column start as .col-content elsewhere */
+  left:0;
   top:27.49%;    /* 276px / 1004px hero photo height — vertical, no other element to match */
-  /* Right edge tracks the viewport the same way .section-grid's 1fr
-     column does — shrinks on medium screens instead of overflowing.
-     The box itself runs 28px past the shared right margin so that,
-     with real padding-right inside it, the text still reaches that
-     margin instead of the box being flush and the text touching its
-     bare edge. Kept small (not the ~50px it used to be) so the white
-     space between the wrapped text and the card's own edge stays tight. */
-  width:calc(100% - (2 * var(--pad-x)) - var(--col-label) + 28px);
+  /* Runs 28px past the column's right edge so that, with real
+     padding-right inside it, the text still reaches that edge instead of
+     the box being flush and the text touching its bare edge. */
+  width:calc(100% + 28px);
   max-width:701px;
   background:#fff;
   border-top:4px solid var(--red);
@@ -216,7 +231,9 @@ h1,h2,h3,h4{margin:0;font-weight:500}
   pointer-events:auto;
 }
 @media (max-width:900px){
-  .hero-content{position:static;max-width:none}
+  .hero-content{position:static;padding:0}
+  .hero-grid{display:block;max-width:none;margin:0}
+  .hero-card-col{grid-column:auto}
   .hero-card{
     /* position:relative (not static) — it needs to stay a "positioned"
        element so it paints above .hero-media (also position:relative),
@@ -259,6 +276,16 @@ h1,h2,h3,h4{margin:0;font-weight:500}
 
 /* ---------- Generic sections ---------- */
 .section{padding:96px var(--pad-x)}
+/* Every section's content caps at the same --page-max and centers the
+   same way .header-inner does — otherwise on screens wider than
+   page-max + 2*pad-x, the header's nav/logo column drifts inward (centered)
+   while section headlines/grids stay flush against the pad-x edge, so
+   they visibly fall out of alignment with each other. */
+.section > *{
+  max-width:var(--page-max);
+  margin-left:auto;
+  margin-right:auto;
+}
 .section--dark{background:var(--dark);color:#fff}
 .section--tint{background:var(--tint)}
 .section--accent{background:var(--blue)}
@@ -294,36 +321,47 @@ h1,h2,h3,h4{margin:0;font-weight:500}
 }
 
 /* ---------- Challenge cascade ---------- */
-.challenge-cascade-row{
-  align-items:center;
+/* A row of 4 columns (number, short underline, label) spanning the
+   section's full inset width — not the old stacked list-with-dividers
+   layout indented to the col-content start. */
+.cascade{
   margin-top:80px;
-}
-.cascade{width:100%}
-.cascade-row{
-  display:flex;
-  align-items:center;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
   gap:40px;
-  padding:24px 0;
-  border-top:1px solid rgba(255,255,255,.25);
 }
-.cascade-row:last-child{border-bottom:1px solid rgba(255,255,255,.25)}
+.cascade-item{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+}
 .cascade-stat{
   font-family:var(--font-notch);
   font-weight:500;
   font-size:75px;
+  line-height:1;
   color:var(--accent);
-  min-width:220px;
+}
+.cascade-divider{
+  width:48px;
+  height:2px;
+  background:var(--accent);
+  margin:20px 0 24px;
 }
 .cascade-label{
   font-family:var(--font-sans);
-  font-weight:500;
+  font-weight:400;
   font-size:19px;
+  line-height:1.5;
   color:#fff;
-  max-width:340px;
 }
 
 @media (max-width:900px){
-  .challenge-cascade-row{margin-top:40px}
+  .cascade{grid-template-columns:1fr;gap:40px;margin-top:40px}
+  .cascade-stat{font-size:52px}
+}
+@media (max-width:1200px) and (min-width:901px){
+  .cascade{grid-template-columns:repeat(2,1fr);row-gap:48px}
 }
 
 /* ---------- Goal cards ---------- */
