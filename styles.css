@@ -110,7 +110,7 @@ h1,h2,h3,h4{margin:0;font-weight:500}
   display:flex;
   gap:80px;
   font-family:var(--font-sans);
-  font-size:25px;
+  font-size:12.5px;
   line-height:1.5;
 }
 .nav-col{list-style:none;margin:0;padding:0}
@@ -157,12 +157,11 @@ h1,h2,h3,h4{margin:0;font-weight:500}
     z-index:99;
   }
   .header-nav-row.is-open{display:flex}
-  .nav{flex-direction:column;gap:20px;font-size:22px}
+  .nav{flex-direction:column;gap:20px}
   .header-actions{flex-direction:column;align-items:stretch;gap:16px;width:100%}
-  .lang{font-size:22px}
   .btn-touch{width:100%}
 }
-.lang{font-family:var(--font-sans);font-size:25px}
+.lang{font-family:var(--font-sans);font-size:12.5px}
 .btn{
   display:inline-flex;
   align-items:center;
@@ -177,9 +176,9 @@ h1,h2,h3,h4{margin:0;font-weight:500}
 .btn-touch{
   background:var(--btn-red);
   color:#fff;
-  /* Half the size of the other buttons — this one lives in the nav,
-     not as a hero-level call to action. */
-  font-size:10px;
+  /* Unified with .nav and .lang — every text size in the header nav
+     row matches, half the original 25px/20px sizes. */
+  font-size:12.5px;
   padding:6px 12px;
 }
 .btn-accent{background:var(--blue);color:#000;font-family:var(--font-sans)}
@@ -275,6 +274,7 @@ h1,h2,h3,h4{margin:0;font-weight:500}
   font-weight:500;
   font-size:13px;
   letter-spacing:0.52px;
+  text-transform:uppercase;
   margin-bottom:18px;
 }
 .hero-card h1{
